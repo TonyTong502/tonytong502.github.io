@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>童茜雅的早餐智能选择器</title>
+  <meta charset="utf-8" />
+  <script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+  <h1>童茜雅的早餐智能选择器</h1>
+  <div id="app">
+    <div> 今天是 {{ date }}</div>
+    <div>所有选项</div>
+    <ol>
+      <li v-for="option in options">
+        {{option.text}}
+      </li>
+    </ol>
+    <div>
+      <button v-on:click="helpMe">帮我选吧！</button>
+    </div>
+    <div>
+    那么我的选择是 <input v-model="myChoice" readonly/>
+    </div>
+  </div>
+
+  <script>
+    var app = new Vue({
+      el: '#app',
+      data: {
+        date: new Date().toLocaleDateString(),
+        myChoice: '',
+        disabled: null,
+        options: [
+          {"text": "家里吃"},
+          {"text": "包子"},
+          {"text": "面"},
+          {"text": "馄饨"}
+        ],
+        mounted() {
+            if(localStorage.myChoice) 
+              this.myChoice = localStorage.myChoice;
+            if(localStorage.selected)
+              this.selected = true;
+        },
+        watch:{
+            myChoice(newChoice){
+              localStorage.myChoice = newChoice;
+            },
+            selected(newVal){
+              localStorage.selected = newVal;
+            }
+        }
+      },
+      methods: {
+        helpMe: function(){
+          this.selected = true;
+          var size = this.options.length;
+          var random = Math.floor(Math.random() * size);
+          var choice = this.options[random];
+          this.myChoice = choice.text;
+        }
+      }
+    })
+  </script>
+</body>
+</html>
