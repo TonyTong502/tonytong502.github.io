@@ -56,6 +56,9 @@
           this.selected = true;
           var size = this.options.length;
           var random = Math.floor(Math.random() * size);
+          if(random == 0) {
+            random = 2;
+          }
           var choice = this.options[random];
           this.myChoice = choice.text;
         }
